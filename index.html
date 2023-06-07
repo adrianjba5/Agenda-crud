@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="estilo.css">
+	<script src="https://kit.fontawesome.com/ee7ceee145.js" crossorigin="anonymous"></script>
+	
+
+
+
+	<title>Agenda Servicios</title>
+</head>
+<body>
+	<header>
+			<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="/">
+     Agenda Servicios
+    </a>
+
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+</nav>
+
+	</header>
+	<main class="main-content">
+		<div class="crud-container">	
+			<div class="crud-header">
+				<h1>Actividades Realizadas</h1>
+				<button class="button is-success" id="openRegisterModal"><i class="fas fa-home">  </i> Nuevo servicio</button>
+			</div>
+			<table class="table">
+  <thead>
+    <tr>
+      <th><abbr title="Position">#</abbr></th>
+      <th>Numero de orden</th>
+      <th>Nombre del Cliente</th>
+      <th>Tipo de Servicio</th>
+      <th>STB</th>
+      <th>Extensores</th>
+      <th>Descripcion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>123</td>
+      <td>Adrian</td>
+      <td>Instalacion BAF</td>
+      <td>1</td>
+      <td>2</td>
+      <td>ninguna descripcion </td>
+      <td>
+      	<button class="button is-warning">
+      		<i class="fa-solid fa-pen"></i>
+      	</button>
+      	<button class="button is-danger">
+      		<i class="fa-solid fa-trash"></i></i>
+      	</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</main>
+<div class="modal" id="modal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Registrar Nuevo Servicio</p>
+      <button class="delete" aria-label="close" id="closeRegisterModal"></button>
+    </header>
+    <section class="modal-card-body">
+      <form id="register-form">
+      	<div class="field">
+  				<label class="label">NUMERO DE ORDEN</label>
+  				<div class="control">
+  				  <input class="input" type="text" name="orden" placeholder="INGRESE EL NUMERO DE ORDEN">
+  				</div>
+			</div>
+			<div class="field">
+  				<label class="label">NOMBRE DEL CLIENTE</label>
+  				<div class="control">
+  				  <input class="input" type="text" name="cliente" placeholder="INGRESE EL NOMBRE DEL CLIENTE">
+  				</div>
+			</div>
+			<div class="field">
+  				<label class="label">INGRESE EL TIPO SERVICIO </label>
+          <div class="select">
+            <select  name="mySelect">
+              <option value="INTALACION VERTICAL BAF">INTALACION VERTICAL BAF</option>
+              <option value="INSTALACION HORIZONTAL BAF">INSTALACION HORIZONTAL BAF</option>
+              <option value="INSTALACION HORIZONTAL TV + BAF">INSTALACION HORIZONTAL TV + BAF</option>
+              <option value="INSTALACION HORIZONTAL ETV + BAF">INSTALACION HORIZONTAL ETV + BAF</option>
+              <option value="INSTALACION VERTICAL TV + BAF">INSTALACION VERTICAL TV + BAF</option>
+              <option value="INSTALACION VERTICAL ETV + BAF">INSTALACION VERTICAL ETV + BAF</option>
+            </select>
+        </div>  				
+			</div>
+			<div class="field">
+  				<label class="label">INGRESE LA CANTIDAD DE STB</label>
+          <div class="select">
+            <select  name="stb">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+        </div>  
+  			</div>
+  						<div class="field">
+  				    <label class="label">INGRESE LA CANTIDAD DE EXTENSORES</label>
+          <div class="select">
+            <select  name="extensor">
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+            </select>
+        </div> 
+
+
+
+            			</div>
+
+  			<div class="field">
+			  <label class="label">Descripcion</label>
+			  <div class="control">
+			    <textarea class="textarea" name="desc" placeholder="Textarea"></textarea>
+			  </div>
+			</div>
+    </section>
+    <footer class="modal-card-foot">
+      <button  type="submit" class="button is-success">
+      	 <i class="fas fa-save"></i>
+      	 	<span>Registrar</span>
+      </button>
+     </form>
+    </footer>
+  </div>
+</div>
+
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js" type="module"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js" type="module"></script>
+	<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+
+  	import { } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"
+  	import { } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyCXXJzSwFtWYiRSYuVrGZ_9G7YIgQgjbJc",
+    authDomain: "agenda-e4dc9.firebaseapp.com",
+    projectId: "agenda-e4dc9",
+    storageBucket: "agenda-e4dc9.appspot.com",
+    messagingSenderId: "733122620717",
+    appId: "1:733122620717:web:bb0d45762686d5cd6437a4"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+</script>
+
+
+
+<script src="codigo.js"></script>
+</body>
+</html>
