@@ -2,16 +2,19 @@ const openModal = document.getElementById('openRegisterModal');
 const modal = document.getElementById('modal');
 const closeModal =document.getElementById('closeRegisterModal')
 const registerForm = document.getElementById('register-form')
-// const app = initializeApp(firebaseConfig);
-// const agendaRef = firebase.database().ref("register")
+const decirAlgo = document.querySelector('.alarma')
 
 
 const showRegisterModal = () => {
 	modal.classList.toggle('is-active');
 }
+decirAlgo.addEventListener('click', ()=>{
+	alert("Hola mundo")
+})
 
 openModal.addEventListener('click', showRegisterModal);
 closeModal.addEventListener('click', showRegisterModal);
+
 
 registerForm.addEventListener('submit', (e)=>{
 	e.preventDefault()
@@ -27,27 +30,40 @@ registerForm.addEventListener('submit', (e)=>{
 
 	if ( stb >= 1 || stb < 6) {
 
-		 return totalStb = stb * 1873
+		 return stb * 1873
 	 }
 	}
+	const totalStb = stbTotal();
 
 	const extTotal = () => {
 		if (extensor >= 1 || extensor < 3)
-			return totalExt = extensor * 1873
+			return extensor * 1873
 	}
+	const totalExt = extTotal();
 
-	console.log(orden);
-	console.log(nombreCliente);
-	console.log(stb);
-	console.log(stbTotal(stb))
-	console.log(extensor)
-	console.log(extTotal(extensor))
-	console.log(descripcion)
-	
-	// const registerAgenda = agendaRef.push()
-	// console.log(registerAgenda)
-	// console.log(registerAgenda.path.pieces_[1])
-	// registerAgenda.set({
-	// 	Uid : registerAgenda.path.pieces_[1],
-	// })
-})
+	let data = {
+
+		orden: orden,
+		nombreCliente: nombreCliente,
+		stb: stb,
+		totalStb: totalStb,
+		extensor: extensor,
+		totalExt: totalExt,
+		descripcion: descripcion
+	};
+     	  // Guardar los datos en Firebase Firestore
+
+	  var db = firebase.firestore();
+  db.collection('Agenda').add(data)
+    .then(function(docRef) {
+      console.log('Documento guardado con ID: ', docRef.id);
+      // Aquí puedes realizar acciones adicionales después de guardar los datos
+    })
+    .catch(function(error) {
+      console.error('Error al guardar el documento: ', error);
+    });
+
+  // Restablecer el formulario después de enviar los datos
+  registerForm.reset();
+});
+
